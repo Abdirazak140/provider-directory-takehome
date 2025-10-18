@@ -1,3 +1,4 @@
+import { profilePlaceholder } from "./constants"
 import "./provider_cards.css"
 import { Link } from "react-router-dom"
 
@@ -6,8 +7,7 @@ const availabiltyMapper = {
     "next-week": "in the next week"
 }
 
-export const ProviderCard = ({ id, name, title, avatarUrl, bio, availabilty, role }) => {
-    const profilePlaceholder = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+export const ProviderCard = ({ id, name, title, avatarUrl, bio, availabilty }) => {
 
     return (
         <Link to={`provider/${id}`} className="profile" key={id}>
@@ -19,7 +19,6 @@ export const ProviderCard = ({ id, name, title, avatarUrl, bio, availabilty, rol
                 />
                 <div className="profile-info">
                     <span className="profile-name">{name}, {title}</span>
-                    <span className="profile-title">{role}</span>
                 </div>
             </div>
 

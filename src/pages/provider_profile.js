@@ -5,24 +5,47 @@ import { useEffect, useState } from "react"
 import { FaMapLocation } from "react-icons/fa6"
 import { BsFillMortarboardFill, BsGlobe } from "react-icons/bs"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
+import { profilePlaceholder } from "../components/constants"
 
 export const ProviderProfile = () => {
     const [provider, setProvider] = useState({})
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(true)
     const { id } = useParams();
-    const profilePlaceholder = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
     const [isCollapsed, setIsCollapsed] = useState(true)
 
     useEffect(() => {
 
         const fetchData = async () => {
-            const response = await fetchProvider(id)
-
-            setProvider(response)
-            console.log(response)
+            try {
+                const response = await fetchProvider(id)
+                setProvider(response)
+                console.log(response)
+            } catch (error) {
+                setError("Failed to load provider profile")
+            } finally {
+                setLoading(false)
+            }
         }
 
         fetchData();
     }, [])
+
+    if (loading) {
+        return (
+            <div className="provider-profile">
+                Loading...
+            </div>
+        )
+    }
+
+    if (error) {
+        return (
+            <div className="provider-profile">
+                {error}
+            </div>
+        )
+    }
 
     return (
         <div className="provider-profile">
@@ -85,7 +108,7 @@ export const ProviderProfile = () => {
                             <div>
                                 <span className="item-title">Language</span>
                                 <p className="item-value">
-                                    {provider.languages && provider.languages.join(', ')}
+                                    {provider.languages?.length && provider.languages.join(', ')}
                                 </p>
                             </div>
                         </div>
